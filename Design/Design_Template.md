@@ -14,6 +14,7 @@
 Pin down the *business* problem before the ML:
 - **Business goal** and the **decision** the system drives (increase conversion? reduce capacity over-provisioning?).
 - **Who's the user / consumer** of the prediction (a service, a planner, an end customer)?
+- **Data:** What are the data sources? how large large is the dataset? is the data labeled?
 - **Scale:** QPS, # users, # items, data volume & velocity.
 - **Latency / cost budget:** p99 inference latency? batch vs real-time? cost ceiling?
 - **Success metric:** the one online metric that defines success + guardrails.
