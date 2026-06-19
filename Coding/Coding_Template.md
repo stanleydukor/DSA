@@ -71,7 +71,7 @@ Restate the problem in your own words, then ask:
 | Trie | — | O(L) | O(L) | O(L) | L = key length, prefix search |
 | Union-Find (DSU) | — | ~O(α(n)) | ~O(α(n)) | — | connectivity, cycles in undirected |
 
-**Pattern → tool reflexes:**
+**Pattern → tool reflexes** (full how/when/example for each in `Patterns_and_Techniques.md`):
 - Sorted array / "find pair / closest" → **two pointers** or **binary search**.
 - Contiguous subarray / substring window → **sliding window**.
 - "Top / Kth / median / merge K" → **heap**.
