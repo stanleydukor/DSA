@@ -95,16 +95,16 @@ Restate the problem in your own words, then ask:
 
 ---
 
-## MLE-Flavored Coding Twists (be ready to write clean numpy / pure Python)
-Amazon sometimes blends ML into DSA. Know these cold; they're fair game:
-- **NMS (non-max suppression)** and **IoU** for bounding boxes.
-- **K-means assignment step** (assign points to nearest centroid).
-- **Softmax** (with the max-subtraction numerical-stability trick).
-- **Precision / recall / F1** calculation from TP/FP/FN.
-- **Streaming top-k frequent items** (heap + hash map).
-- **Sharding scheme** to distribute a dataset across workers (hash partitioning, balance).
+## ML-Flavored Coding Twists (be ready to write clean numpy / pure Python)
+Amazon sometimes blends ML into DSA. **For this role (GenAI for Customer Service), lead with the text/LLM-flavored ones:**
+- **Cosine similarity** + **top-k nearest neighbors** over embeddings (this *is* vector search / RAG retrieval).
+- **Softmax + temperature**, and **top-k / top-p (nucleus) sampling** (the LLM decoding step).
+- **BPE / simple tokenizer**; **edit distance** for fuzzy query matching.
+- **Streaming top-k frequent items** (heap + hash map) — trending intents.
+- **Token-bucket rate limiter** / **LRU cache** for an LLM service.
+- **Precision / recall / F1** from TP/FP/FN.
 
-These let you show ML depth *inside* a coding round: narrate the ML reasoning, not just the loops.
+Classic CV/ML (still fair game in a general ML round): **NMS / IoU**, **k-means assignment step**, **sharding scheme**. Full list in `Question_Bank.md` §7. Narrate the ML reasoning, not just the loops.
 
 ---
 
