@@ -2,7 +2,7 @@
 
 > **The meta-skill:** most interview problems are one of ~15 reusable patterns wearing a costume. Your job in **Step 1–2 (Clarify → Plan)** is to read the _trigger signals_ in the prompt and pick the matching tool. This file is your reflex table: **when** each pattern applies, **how/why** it works, a **brief example**, and **which Question Bank problems** drill it.
 >
-> Read the "Trigger signals" lines until they're automatic. In the interview, say the trigger out loud: _"The array is sorted and I need a pair — that's a two-pointer signal."_ That narration is graded (problem-solving).
+> Read the "Trigger signals" lines until they're automatic. In the interview, say the trigger out loud: _"The array is sorted and I need a pair, that's a two-pointer signal."_ That narration is graded (problem-solving).
 
 ---
 
@@ -32,11 +32,11 @@
 
 ---
 
-## 1. Two Pointers — opposite ends
+## 1. Two Pointers: opposite ends
 
 **Trigger:** array is **sorted** and you need a **pair/triplet** with a target sum (or min/max width).
-**How/why:** put `left=0`, `right=n-1`. The sum changes **predictably** because the array is sorted — too small → `left += 1` (only way to increase), too big → `right -= 1` (only way to decrease). Each pointer moves inward at most n times → **O(n)** instead of O(n²) for the pair subproblem. This is _exactly_ why 3Sum sorts first, then runs two pointers inside the outer loop → O(n²) overall.
-**Brief example — two-sum on a sorted array:**
+**How/why:** put `left=0`, `right=n-1`. The sum changes **predictably** because the array is sorted: too small → `left += 1` (only way to increase), too big → `right -= 1` (only way to decrease). Each pointer moves inward at most n times → **O(n)** instead of O(n²) for the pair subproblem. This is _exactly_ why 3Sum sorts first, then runs two pointers inside the outer loop → O(n²) overall.
+**Brief example, two-sum on a sorted array:**
 
 ```python
 def two_sum_sorted(nums, target):           # nums is sorted
@@ -52,7 +52,7 @@ def two_sum_sorted(nums, target):           # nums is sorted
 **Also powers:** 3Sum, 3Sum closest, Container With Most Water, Trapping Rain Water, Valid Palindrome, Sort Colors (Dutch flag), Move Zeroes.
 **Watch:** skip duplicates after a hit (as 3Sum does) to keep triplets unique.
 
-## 2. Two Pointers — fast & slow (Floyd's)
+## 2. Two Pointers: fast & slow (Floyd's)
 
 **Trigger:** **linked list** cycle detection, find the middle, or nth-from-end; also "find the duplicate number" framed as a cycle.
 **How/why:** slow moves 1 step, fast moves 2. If there's a cycle they meet; if not, fast hits the end. For the **middle**, when fast reaches the end slow is at the midpoint. For **nth-from-end**, advance one pointer n steps first, then move both until it hits the end.
@@ -106,10 +106,10 @@ def subarray_sum_equals_k(nums, k):
 
 **Also powers:** Product of Array Except Self (prefix×suffix), range sum query, pivot index.
 
-## 5. Hash Map / Set — O(1) lookup
+## 5. Hash Map / Set: O(1) lookup
 
 **Trigger:** "have I seen this?", counting frequencies, dedupe, complement lookup, grouping.
-**How/why:** trade space for time — O(1) average insert/lookup turns an O(n²) scan into O(n). The canonical **Two Sum** stores each value's complement.
+**How/why:** trade space for time: O(1) average insert/lookup turns an O(n²) scan into O(n). The canonical **Two Sum** stores each value's complement.
 
 ```python
 def two_sum(nums, target):
@@ -173,7 +173,7 @@ def num_islands_bfs(grid):
 
 ## 8. DFS / Backtracking
 
-**Trigger:** explore _all_ possibilities — permutations, combinations, subsets, partitions, word search, all paths; or fully explore a region/tree.
+**Trigger:** explore _all_ possibilities: permutations, combinations, subsets, partitions, word search, all paths; or fully explore a region/tree.
 **How/why:** recurse, **choose → explore → un-choose** (backtrack). Prune branches that can't lead to a solution. Exponential in the worst case but pruning + structure make it tractable.
 
 ```python
@@ -256,7 +256,7 @@ def k_largest(nums, k):
 ## 12. Monotonic Stack
 
 **Trigger:** "**next greater / next smaller** element," stock spans, daily temperatures, largest rectangle in histogram, trapping rain water.
-**How/why:** keep a stack whose values stay sorted (increasing or decreasing). When the new element breaks the order, pop — each pop resolves an answer. Each element pushed/popped once → **O(n)**.
+**How/why:** keep a stack whose values stay sorted (increasing or decreasing). When the new element breaks the order, pop. Each pop resolves an answer. Each element pushed/popped once → **O(n)**.
 
 ```python
 def daily_temperatures(temps):
@@ -291,7 +291,7 @@ def max_sliding_window(nums, k):
 ## 14. Dynamic Programming
 
 **Trigger:** "**number of ways / min cost / max value / can I reach / longest…**" AND the problem has **overlapping subproblems** + **optimal substructure**. If brute-force recursion recomputes the same state, it's DP.
-**How/why:** define a **state**, a **transition** (recurrence), and **base cases**. Memoize (top-down) or build a table (bottom-up). Say the recurrence out loud — that's the graded insight.
+**How/why:** define a **state**, a **transition** (recurrence), and **base cases**. Memoize (top-down) or build a table (bottom-up). Say the recurrence out loud, that's the graded insight.
 
 ```python
 def coin_change(coins, amount):              # min coins to make amount
@@ -324,7 +324,7 @@ def merge_intervals(intervals):
 ```
 
 **Also powers:** Meeting Rooms I/II, Non-overlapping Intervals, Insert Interval, Jump Game, Gas Station.
-**Caution:** greedy needs justification — if you can't argue it's optimal, it may need DP instead.
+**Caution:** greedy needs justification: if you can't argue it's optimal, it may need DP instead.
 
 ## 16. Trie (Prefix Tree)
 
@@ -346,7 +346,7 @@ class Trie:
         return '$' in node
 ```
 
-**Also powers:** Word Search II (Trie + backtracking — reported at Amazon), Add & Search Word, Replace Words, autocomplete.
+**Also powers:** Word Search II (Trie + backtracking, reported at Amazon), Add & Search Word, Replace Words, autocomplete.
 
 ## 17. Divide & Conquer / Recursion + Index Map
 
@@ -373,7 +373,7 @@ def build_tree(preorder, inorder):
 ## 18. Cyclic Sort / Index-as-Hash
 
 **Trigger:** numbers in a known range `[1..n]` or `[0..n]`; find the **missing / duplicate** number in **O(1) extra space**.
-**How/why:** the value tells you where it belongs — place each number at index `value-1`, or use the sign at `index value` as a "seen" flag. Linear time, no extra structure.
+**How/why:** the value tells you where it belongs: place each number at index `value-1`, or use the sign at `index value` as a "seen" flag. Linear time, no extra structure.
 
 ```python
 def find_disappeared(nums):                   # numbers 1..n, find missing
@@ -399,7 +399,7 @@ def single_number(nums):
 
 **Also powers:** Single Number I/II/III, Counting Bits, Subsets via bitmask, Missing Number (XOR variant).
 
-## 20. Quickselect (bonus — average O(n) Kth element)
+## 20. Quickselect (bonus: average O(n) Kth element)
 
 **Trigger:** "Kth largest/smallest" when you want **average O(n)** instead of heap's O(n log k) and don't need the order.
 **How/why:** partition like quicksort, but recurse into only the side containing the Kth position. Average O(n), worst O(n²) (mitigate with random pivot).
@@ -409,9 +409,9 @@ def single_number(nums):
 
 ## How to use this in the interview (the workflow)
 
-1. **Read the prompt for trigger words** — _sorted, contiguous, shortest, dependencies, top-K, next-greater, # of ways…_
+1. **Read the prompt for trigger words**: _sorted, contiguous, shortest, dependencies, top-K, next-greater, # of ways…_
 2. **Name the pattern out loud** and why it fits. ("Contiguous + longest-with-constraint → sliding window.")
 3. **State complexity the pattern buys you** before coding ("this takes the pair search from O(n²) to O(n)").
-4. If two patterns fit, mention both and pick with justification — that's the senior signal.
+4. If two patterns fit, mention both and pick with justification, that's the senior signal.
 
 > Cross-reference: the **reflex table** in `Coding_Template.md` (pattern → tool) and the per-problem labels in `Question_Bank.md` (each problem lists its pattern). Drill by pattern: do 3 problems of one technique back-to-back until the trigger is automatic.

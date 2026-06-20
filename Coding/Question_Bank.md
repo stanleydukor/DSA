@@ -1,4 +1,4 @@
-# Coding Question Bank — Amazon MLE
+# Coding Question Bank: Amazon MLE
 
 Curated to (a) match Amazon's most-asked list and (b) cover every pattern an interviewer can draw from.
 **★ = highest-yield / frequently reported at Amazon.** Practice on the NeetCode Blind 75: https://neetcode.io/practice
@@ -8,7 +8,7 @@ Curated to (a) match Amazon's most-asked list and (b) cover every pattern an int
 
 ---
 
-## 1. Trees & Graphs — HIGHEST PRIORITY (46%)
+## 1. Trees & Graphs: HIGHEST PRIORITY (46%)
 
 | Problem | Pattern | |
 |---|---|---|
@@ -114,7 +114,7 @@ Curated to (a) match Amazon's most-asked list and (b) cover every pattern an int
 
 ---
 
-## 6. OOP / Design-y Coding (LOW-LEVEL DESIGN — practice writing these as classes)
+## 6. OOP / Design-y Coding (LOW-LEVEL DESIGN, practice writing these as classes)
 
 > These test **clean class design**, encapsulation, and the right data structures together. Narrate the API first (method signatures + complexity targets), then implement. Great place to show "Logical & Maintainable."
 
@@ -136,11 +136,11 @@ Curated to (a) match Amazon's most-asked list and (b) cover every pattern an int
 | **Iterator classes** (BST iterator, flatten nested list) | Stack | O(1) amortized next | |
 | **Tokenizer / Logger / Parking Lot / Elevator** | Enums + classes + state | discuss design | |
 
-> The existing notebooks `Coding/oop.ipynb`, `Coding/dsa.ipynb`, `Coding/problems.ipynb` already have implementations — use them as your warm-up reference, but rewrite from scratch under time.
+> The existing notebooks `Coding/oop.ipynb`, `Coding/dsa.ipynb`, `Coding/problems.ipynb` already have implementations; use them as your warm-up reference, but rewrite from scratch under time.
 
 ---
 
-## 7. MLE-Flavored Twists (write clean numpy / pure Python — know these cold)
+## 7. MLE-Flavored Twists (write clean numpy / pure Python, know these cold)
 
 | Task | What to implement | Notes |
 |---|---|---|
