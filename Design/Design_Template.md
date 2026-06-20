@@ -22,7 +22,7 @@ Pin down the *business* problem before the ML:
 > Say: *"Let me state my assumptions and confirm scope before I design."*
 
 ### 2. Frame as an ML Problem
-- What exactly do we **predict**? What's the **label** (implicit vs explicit)?
+- What is the system's **input** and **output**? What exactly do we **predict**? What's the **label** (implicit vs explicit)?
 - **Online vs batch** inference? **Ranking vs classification vs regression vs forecasting?**
 - What's the **prediction granularity** (per-request, per-item, per-time-bucket)?
 
@@ -31,8 +31,11 @@ Pin down the *business* problem before the ML:
 - **Labels:** implicit feedback (clicks/purchases) vs explicit. Delay between action and label?
 - **Leakage:** especially **temporal leakage** in forecasting/ranking — no future info in features.
 - **Privacy / compliance:** PII handling, retention.
+- **Bias:** Are there any biases in the data? If yes, what kind are present, and how do we correct them?
+- **ETL Pipeline:** **Extract** data from different sources, **Transform** into specific format to meeting operational needs (cleaning, schema validation and mapping), and **Load** the transformed data into the target destination (file, database or data warehouse).
 
 ### 4. Features
+- **Operations:** handling missing values, feature scaling, discretization, and encoding.
 - **Entities:** user / item / context features; cross features.
 - **Real-time vs batch:** precompute heavy features in batch, compute fresh ones near-real-time.
 - **Feature store:** consistent features for training & serving (avoid **training-serving skew**).
@@ -46,6 +49,9 @@ Pin down the *business* problem before the ML:
 
 ### 6. Training
 - **Pipeline:** data → features → train → validate → register.
+- **Dataset:** sampling strategy (stratified, importance etc), data split percentage, handling class imbalance
+- **Loss function:** depending on the ML problem, classification vs regression losses.
+- **Validation:** k-fold cross validation 
 - **Retraining cadence** (daily/weekly) + triggers (drift, performance drop).
 - **Distributed training** if data is large; **validation strategy** (temporal split for forecasting/ranking, rolling-origin backtest).
 - **Model registry & versioning**, reproducibility.
