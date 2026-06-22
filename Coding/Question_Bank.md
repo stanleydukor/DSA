@@ -140,16 +140,31 @@ Curated to (a) match Amazon's most-asked list and (b) cover every pattern an int
 
 ---
 
-## 7. MLE-Flavored Twists (write clean numpy / pure Python, know these cold)
+## 7. ML-Flavored Coding Twists (write clean numpy / pure Python, know these cold)
 
+> **For THIS role (Generative AI for Amazon Customer Service), §7a below is the most likely flavor** — the role is text/embedding/LLM-centric, not vision. Keep §7b for a general ML round, but prioritize 7a.
+
+### 7a. GenAI / LLM / text-flavored (most relevant to Amazon Customer Service)
+| Task | What to implement | Notes |
+|---|---|---|
+| **Cosine similarity** | `dot(a,b) / (‖a‖·‖b‖)` between two embedding vectors | guard zero-norm; basis of semantic search |
+| **Top-k nearest neighbors by cosine** | score a query vs N stored embeddings, return top-k | min-heap of size k → O(N log k); this *is* vector search / RAG retrieval |
+| **Softmax + temperature** | `exp(x/T - max) / sum(...)` | T scales randomness; subtract max for numerical stability |
+| **Top-k / top-p (nucleus) sampling** | filter logits to top-k or cumulative-p mass, renormalize, sample | the LLM decoding step — be ready to explain it |
+| **BPE / simple tokenizer** | split text → tokens; (BPE) merge the most-frequent adjacent pair iteratively | or a word/char tokenizer + vocab map |
+| **Levenshtein / edit distance** | 2-D DP | fuzzy matching, dedupe near-identical customer queries |
+| **Token-bucket rate limiter** | refill tokens over elapsed time; allow/deny | API/LLM throttling (also OOP §6) |
+| **LRU cache for responses/embeddings** | hash map + doubly linked list, O(1) | caching layer for an LLM service (also OOP §6) |
+| **Streaming top-k frequent** | hash count + min-heap of size k | trending intents/topics from contact streams; O(n log k) |
+| **Parse / merge structured (JSON-ish) output** | parse and validate LLM output fields, merge | post-processing an LLM response |
+| **Precision / Recall / F1** | from TP, FP, FN | classifier/eval metric; guard divide-by-zero |
+
+### 7b. Classic CV / ML-flavored (still fair game in a general ML round)
 | Task | What to implement | Notes |
 |---|---|---|
 | **IoU** | intersection / union of two boxes | clamp negative overlap to 0 |
 | **NMS** | sort by score, greedily keep, drop boxes with IoU > thresh | O(n²) naive; mention sorting |
 | **K-means assignment step** | assign each point to nearest centroid (argmin dist) | then recompute centroids |
-| **Softmax** | `exp(x - max(x)) / sum(...)` | subtract max for numerical stability |
-| **Precision / Recall / F1** | from TP, FP, FN | guard divide-by-zero |
-| **Streaming top-k frequent** | hash count + min-heap of size k | O(n log k) |
 | **Sharding scheme** | hash(key) % num_workers; discuss balance/skew | consistent hashing for resize |
 
 ---

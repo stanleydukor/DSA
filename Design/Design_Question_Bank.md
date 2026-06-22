@@ -79,6 +79,40 @@
 
 ---
 
+## Classic (non-ML) System Design Primer
+
+> A *required* qualification for this role is **"design/architecture — design patterns, reliability and scaling."** A pure-systems design (no ML) can appear, or your ML/GenAI design may be graded heavily on the **systems** axis (APIs, data models, reliability). Have this toolkit ready. *(For GenAI-app design specifically, use `GenAI_System_Design.md`.)*
+
+**The repeatable steps:** 1) **Functional + non-functional requirements** (QPS, read/write ratio, latency, availability, consistency). 2) **Capacity estimate** (traffic, storage, bandwidth — back-of-envelope). 3) **API design** (endpoints, request/response, idempotency). 4) **Data model** (schema, SQL vs NoSQL + why). 5) **High-level architecture** (client → LB → service → cache → DB → queue). 6) **Scale & deep-dive** (sharding, replication, caching, async). 7) **Reliability & bottlenecks** (failure modes, monitoring).
+
+**The toolkit (know the trade-offs, not just the names):**
+| Tool | Use it for | Trade-off |
+|---|---|---|
+| **Load balancer** | spread traffic across replicas | health checks, sticky sessions |
+| **Horizontal scaling + replicas** | stateless services, throughput | needs shared state externalized |
+| **Caching** (Redis/CDN) | hot reads, cut DB load | invalidation, staleness, cache stampede |
+| **Sharding/partitioning** | data > one node | hot keys, cross-shard queries; **consistent hashing** for resize |
+| **Replication** (leader/follower) | read scale + durability | replication lag, failover |
+| **SQL vs NoSQL** | relations/ACID vs scale/flexible schema | consistency vs availability |
+| **Message queue** (SQS/Kafka) | decouple, smooth spikes, async work | eventual consistency, ordering, dedupe |
+| **CAP / consistency** | pick C vs A under partition | strong vs eventual consistency choice |
+| **Rate limiting** | protect services / fair use | token bucket vs sliding window |
+| **Idempotency** | safe retries | idempotency keys |
+| **Monitoring & alerting** *(JD-called-out)* | reliability | metrics, logs, traces, SLOs |
+
+**Likely classic prompts (rehearse):** design a **rate limiter** (token bucket + Redis), **URL shortener** (hashing + KV + cache), **notification/alerting service** (queue + workers + retries — relevant: JD says "monitoring and alerting"), **customer-service ticketing/chat system** (below), **distributed cache**, **key-value store**, **news feed**, **web crawler**.
+
+### ★ Worked Example (classic) — "Design a customer-service ticketing / live-chat system" (on-domain)
+1. **Requirements:** customers open tickets / live chats; agents claim & respond; route by topic/priority; SLAs. ~X M tickets/day, real-time chat, high availability, search over history.
+2. **Capacity:** estimate concurrent chats, messages/sec, storage for transcripts/attachments.
+3. **API:** `POST /tickets`, `GET /tickets/{id}`, `POST /tickets/{id}/messages`, `WS /chat/{id}` (websocket for live), `POST /tickets/{id}/assign`.
+4. **Data model:** `tickets` (id, customer_id, status, priority, assigned_agent, timestamps), `messages` (ticket_id, sender, body, ts), `agents` (id, skills, availability). SQL for transactional ticket state; object store for attachments; search index (OpenSearch) for transcript search.
+5. **Architecture:** client → API gateway/LB → ticket service (stateless, replicated) → DB (sharded by ticket_id, leader/follower) + Redis (presence/active chats) + **queue** for async (routing, notifications, ML intent classification) + websocket layer for live chat.
+6. **Scale/deep-dive:** shard by ticket/customer; cache active-chat state; **queue decouples** routing & notifications; **idempotent** message writes for retries.
+7. **Reliability:** websocket reconnection, message ordering/dedupe, failover, monitoring & alerting on queue depth/latency. **ML hook:** intent classification (Ex 4) and agent-assist (GenAI WE-B) plug in as async/real-time consumers.
+
+---
+
 ## Forecasting / Ranking Cheat-Sheet (role-specific breadth, say these crisply)
 - **Time-series:** classical (ARIMA, exp-smoothing, Prophet) vs ML (**GBDT on lag/calendar features**) vs deep (**DeepAR, TFT**). Watch seasonality, holidays, cold-start, **no temporal leakage**; backtest with **rolling-origin CV**; metrics **MAPE/sMAPE/quantile loss** for intervals.
 - **Ranking/recsys:** **candidate generation → ranking**; **two-tower retrieval**, **GBDT/DLRM** rankers; offline **NDCG/MAP/recall@k** vs online **CTR/conversion via A/B**. Watch cold-start, **position bias**, feedback loops.
