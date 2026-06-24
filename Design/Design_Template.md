@@ -4,7 +4,7 @@
 >
 > **For this role (Machine Learning Engineer, Amazon Customer Service):** expect ML that powers customer support at scale: **contact/intent classification & routing, agent-assist + GenAI assistants/chatbots, contact-volume forecasting (capacity & staffing), answer/response ranking & recommendation, and escalation / CSAT / churn / sentiment prediction**. This domain is **NLP- and GenAI-heavy** (plays to your strength) with a forecasting/ranking backbone. Translate your CV/GenAI depth into the language of **text classification, retrieval/RAG, large-scale serving, and time-series**.
 >
-> **Which framework to use:** this file = *"design a model that predicts Y"* (the classic ML lifecycle). For *"design an LLM-powered X"* (chatbot, agent-assist, RAG Q&A — the most likely round for this GenAI role) use **`GenAI_System_Design.md`**. For a pure-systems prompt (rate limiter, ticketing system) use the **Classic System Design primer** in `Design_Question_Bank.md`.
+> **Which framework to use:** this file = _"design a model that predicts Y"_ (the classic ML lifecycle). For _"design an LLM-powered X"_ (chatbot, agent-assist, RAG Q&A — the most likely round for this GenAI role) use **`GenAI_System_Design.md`**. For a pure-systems prompt (rate limiter, ticketing system) use the **Classic System Design primer** in `Design_Question_Bank.md`.
 >
 > **Golden rules:** State assumptions. Ask clarifying questions. Propose **multiple options** and **justify your pick** with pros/cons. Narrate the whole way. Draw a block diagram first; deep-dive only where asked.
 
@@ -117,7 +117,7 @@ Pin down the _business_ problem before the ML:
 ## Always-Address Checklist (Bar Raiser watches for these)
 
 - [ ] **Scalability:** how does training scale with data? How does serving handle traffic spikes?
-- [ ] **Failure handling:** what if the model degrades / a dependency dies? Fallback ready.
+- [ ] **Failure handling/Graceful degradation:** what if the model degrades / a dependency dies? Fallback ready (or human-handoff).
 - [ ] **Training-serving skew** prevented (shared feature definitions / feature store).
 - [ ] **No temporal leakage** (critical for forecasting/ranking).
 - [ ] **Concept/feature drift** monitored with retrain triggers.
