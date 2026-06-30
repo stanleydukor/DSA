@@ -71,17 +71,7 @@ Restate the problem in your own words, then ask:
 | Trie | — | O(L) | O(L) | O(L) | L = key length, prefix search |
 | Union-Find (DSU) | — | ~O(α(n)) | ~O(α(n)) | — | connectivity, cycles in undirected |
 
-**Pattern → tool reflexes** (full how/when/example for each in `Patterns_and_Techniques.md`):
-- Sorted array / "find pair / closest" → **two pointers** or **binary search**.
-- Contiguous subarray / substring window → **sliding window**.
-- "Top / Kth / median / merge K" → **heap**.
-- Prefix relationships / autocomplete → **trie** or **prefix sums**.
-- Shortest path on unweighted graph / level order → **BFS**. Connectivity / all paths / cycle → **DFS**.
-- Dependencies / ordering → **topological sort (Kahn's)**.
-- Overlap / scheduling → **sort + sweep**.
-- "Number of ways / min cost / can we reach" → **DP** (define state + transition out loud).
-- LRU / O(1) get+put → **hash map + doubly linked list**.
-- O(1) min alongside stack ops → **auxiliary min stack**.
+**Pattern → tool reflexes:** See the quick reflex table in `Patterns_and_Techniques.md` for trigger signals, full how/why, and worked code for all 20 patterns.
 
 ---
 
@@ -91,20 +81,10 @@ Restate the problem in your own words, then ask:
 - **Linked lists, 10%**
 - Search/Sort, 2% · Stacks/Queues, 2% · Hash tables, 2%
 
-> Trees + Graphs + Arrays/Strings ≈ **84%** of questions. See `Question_Bank.md`.
-
 ---
 
-## ML-Flavored Coding Twists (be ready to write clean numpy / pure Python)
-Amazon sometimes blends ML into DSA. **For this role (GenAI for Customer Service), lead with the text/LLM-flavored ones:**
-- **Cosine similarity** + **top-k nearest neighbors** over embeddings (this *is* vector search / RAG retrieval).
-- **Softmax + temperature**, and **top-k / top-p (nucleus) sampling** (the LLM decoding step).
-- **BPE / simple tokenizer**; **edit distance** for fuzzy query matching.
-- **Streaming top-k frequent items** (heap + hash map) — trending intents.
-- **Token-bucket rate limiter** / **LRU cache** for an LLM service.
-- **Precision / recall / F1** from TP/FP/FN.
-
-Classic CV/ML (still fair game in a general ML round): **NMS / IoU**, **k-means assignment step**, **sharding scheme**. Full list in `Question_Bank.md` §7. Narrate the ML reasoning, not just the loops.
+## ML-Flavored Coding Twists
+Amazon sometimes blends ML into DSA. For this role (GenAI for Customer Service), lead with the GenAI/text-flavored problems (cosine similarity, softmax, BPE, LRU for LLM service, etc.); classic CV/ML (NMS, k-means, sharding) is still fair game in a general ML round. Full problem list with implementation notes in `Question_Bank.md` §7. Narrate the ML reasoning, not just the loops.
 
 ---
 
