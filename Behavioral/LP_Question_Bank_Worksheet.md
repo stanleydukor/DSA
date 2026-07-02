@@ -328,6 +328,14 @@ Amazon's scale of ML + customer obsession means models are judged by **real cust
 **Lead with Story G**, the production failure from distribution mismatch: I trusted a strong test score, shipped, and it failed on real patients because my eval set wasn't representative. I owned it openly, root-caused it, fixed the eval set, and institutionalized **KS-test drift monitoring + retrain triggers** so it couldn't recur. _(A real, self-critical, well-resolved mistake is exactly what the Bar Raiser wants.)_
 **Alternate (changed-my-mind flavor): Story D**, where my latency instinct optimized for the wrong thing; I missed the GPU-less analysts and the CUDA support burden, so I worked to disconfirm my own position and committed fully once the better call was clear.
 
+### "What is your greatest strength?"
+
+My biggest strength is a deep-seated conviction that **every problem has a solution**. It's not naive optimism, it's a mindset I deliberately built over years, and it's now my default starting point for anything I take on. It's what keeps me motivated when a problem looks intractable, and it's carried me through the hardest moments both in engineering and in life. In practice, it means I don't stall when something breaks or when the path isn't obvious, I keep decomposing the problem until a way forward appears.
+
+### "What is your greatest weakness?"
+
+My weakness is **perfectionism**, especially when building ML models. I used to hold back deliverables because I wanted to ship the "perfect" version rather than a good one that works. I've since learned to treat perfection as an **iterative process, not a one-shot event**: I break the work into stages, ship progress early, and let feedback and real-world signal drive each improvement. That shift let me move much faster while still reaching a high bar, because the model gets better in production instead of only in my head. _(Self-aware, with a concrete correction, exactly what the interviewer is listening for.)_
+
 ---
 
 # PART 4: Deployment & Scale Talking Points (weave into Actions)
