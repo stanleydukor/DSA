@@ -62,6 +62,35 @@ Be able to say this crisply in ~45 seconds, because the rest of the interview le
 
 ---
 
+## Deepen here for the July 9 1–2 PM round (Arun Rawlani + Yogesh Chinta)
+> They **built** a production LLM summarization system for customer service (69K summaries/week, 24 marketplaces, 14 languages) — this is not a hypothetical for them. Both your stories are conceptually right, but they'll probe **operability**: what happens when a model call is slow, throttled, wrong, or unsafe, at their scale. Have real answers, not textbook ones. Full context on them: `../Interviewers/Yogesh_Arun_Team_Context.md`.
+
+### Serving-stage resilience (retries, timeouts, fallback)
+- **Timeouts:** every model call gets a hard timeout budget (part of your end-to-end latency budget, e.g. TTFT target). Don't let one slow call hang the whole request.
+- **Retries with backoff + jitter:** retry transient failures (throttling, 5xx) with exponential backoff and jitter, capped attempts — never retry blindly on a call with side effects without idempotency.
+- **Circuit breakers:** after repeated failures/throttles against a model/provider, trip a breaker and stop hammering it; route around it instead of degrading latency for every request.
+- **Fallback / model routing:** on error, throttle, or breaker-trip, **fall back to another model or provider** (this is exactly what a **model-agnostic inference layer** buys you — Yogesh's team carried this through a Nova and gpt-oss migration with minimal architecture change, and the Nova Lite move alone cut cost 60% and p99 latency 40%). If you designed anything with a swappable model client/interface, say so explicitly — it's the difference between "I called an API" and "I built an inference layer."
+- **Graceful degradation:** if no model is available in budget, don't fail hard — serve a cached/last-known-good result, a simpler rule-based fallback, or escalate to a human, depending on how costly a wrong/missing answer is.
+- **Streaming:** stream tokens to hide total latency behind perceived latency (TTFT) wherever the UX allows it.
+
+### Guardrails, as a layered system (not a single filter)
+Think in **layers**, the way a real production GenAI security review does:
+1. **Input PII redaction** — strip/mask PII before it ever reaches the model or logs.
+2. **Content/PII filtering** (e.g., Bedrock Guardrails) — block disallowed content and anonymize residual PII in both directions (input and output).
+3. **Contextual grounding check** — verify the output is actually supported by the retrieved/injected context; block or flag ungrounded claims rather than let them ship.
+4. **Adversarial-input protection** — defend against prompt injection / jailbreak attempts, especially if any retrieved or user-supplied text could be mistaken for instructions.
+Layering matters because each layer catches a different failure mode; a single toxicity filter or a single PII regex is not a guardrail system. If your own projects only had one of these layers, say which one honestly and name which layer you'd add next — that's a better answer than implying you had all four.
+
+### Evaluation & drift in production
+- **LLM-as-judge at scale:** automated quality scoring lets you cover far more traffic than manual/human review ever could (their framework went from ~1% human feedback coverage to 20% of all contacts). Be ready to say **how you'd validate the judge** — sample and compare judge scores against human labels periodically, and watch for the judge's own drift after a model or prompt change.
+- **Quality + cost + latency monitoring together:** production LLM systems are graded on all three simultaneously — a change that improves quality but blows the p99 latency or cost budget isn't a win.
+- **Rollout discipline for model/prompt changes:** treat a prompt or model swap like a deploy — canary/gradual rollout, offline regression eval first, online metrics (acceptance rate, escalation rate, CSAT) watched during rollout, easy rollback.
+
+### If asked "tell me about debugging a production GenAI issue"
+Match the rigor of a real incident: **root cause via logs/metrics** (not guesswork), work across **team/system boundaries** if the failure spans them, quantify the **before/after** (an availability %, a detection-time reduction, a cost delta), and close with the **monitoring gap you fixed** so it can't silently recur. A vague "we noticed errors and fixed the bug" story will read as shallow next to what this pair has actually done.
+
+---
+
 ## Likely follow-up questions: have answers ready
 - **"When would you use RAG vs fine-tuning vs a plain LLM?"**
   - *Plain LLM / prompt:* generative tasks, no fixed corpus, behavior shapeable via prompt.
@@ -72,5 +101,8 @@ Be able to say this crisply in ~45 seconds, because the rest of the interview le
 - **"How did you handle chunking / retrieval quality?"** Chunk by semantic sections with metadata, embed, **hybrid dense + BM25** where helpful, **cross-encoder rerank** the top candidates for precision.
 - **"What's an MCP server and why would it help here?"** Model Context Protocol lets the LLM call external **tools/data sources** in a standard way; exposing EyeWiki retrieval as an MCP tool lets a managed model fetch grounded context on demand: RAG's benefit without hosting the whole retrieval stack yourself.
 - **"How would you scale / monitor it in production?"** Cache frequent queries, monitor **retrieval quality drift** and answer faithfulness, log citations for audit, add fallbacks, and watch cost-per-query.
+- **"How do you make LLM calls resilient in production?"** Per-call timeouts within an overall latency budget, retries with exponential backoff + jitter (only on idempotent/safe calls), circuit breakers to stop hammering a failing provider, fallback to another model/provider, graceful degradation (cached result, simpler rule-based answer, or human escalation) when nothing is available in budget.
+- **"What does a model-agnostic architecture buy you, and what does it cost?"** Buys you: fast, low-risk migration between providers/models (cost or quality driven) and a natural place to hang retries/fallback/routing. Costs you: an abstraction layer to design and maintain, and you may not get 100% of a provider's unique features. Worth it once you expect to change models more than once — which in this space is "always."
+- **"How would you validate an LLM-as-judge?"** Sample its scores against human labels periodically, track agreement rate, re-validate after any prompt/model change (the judge can drift too), and don't let it fully replace a small human-audit sample for high-risk contacts.
 
 > **Delivery tip:** open each answer by naming the **architecture choice and why** (LLM vs RAG), then the **trade-off you weighed**, then the **measurable result**, then the **honest reflection**. That sequence is exactly what this round is grading.
